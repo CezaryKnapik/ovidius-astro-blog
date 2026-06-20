@@ -1,29 +1,33 @@
 {
-    "name": "ovidius-astro-theme",
-    "type": "module",
-    "version": "1.0.0",
-    "scripts": {
-        "dev": "astro dev",
-        "start": "astro dev",
-        "build": "astro build",
-        "preview": "astro preview",
-        "astro": "astro"
-    },
-    "dependencies": {
-        "@astrojs/mdx": "^6.0.3",
-        "@astrojs/rss": "^4.0.18",
-        "@astrojs/sitemap": "^3.7.3",
-        "@tailwindcss/vite": "^4.3.1",
-        "astro": "^6.4.6",
-        "tailwindcss": "^4.3.1"
-    },
-    "devDependencies": {
-        "@tailwindcss/typography": "^0.5.20",
-        "prettier": "^3.8.4",
-        "prettier-plugin-astro": "^0.14.1",
-        "prettier-plugin-tailwindcss": "^0.8.0"
-    },
-    "overrides": {
-        "vite": "^7.3.2"
-    }
+  "name": "ovidius-astro-theme",
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "npm run build && wrangler dev",
+    "astro": "astro",
+    "generate-types": "wrangler types",
+    "deploy": "npm run build && wrangler deploy"
+  },
+  "dependencies": {
+    "@astrojs/cloudflare": "^13.7.0",
+    "@astrojs/mdx": "^6.0.3",
+    "@astrojs/rss": "^4.0.18",
+    "@astrojs/sitemap": "^3.7.3",
+    "@tailwindcss/vite": "^4.3.1",
+    "astro": "^6.4.6",
+    "tailwindcss": "^4.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.20",
+    "prettier": "^3.8.4",
+    "prettier-plugin-astro": "^0.14.1",
+    "prettier-plugin-tailwindcss": "^0.8.0",
+    "wrangler": "^4.103.0"
+  },
+  "overrides": {
+    "vite": "^7.3.2"
+  }
 }
