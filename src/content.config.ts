@@ -15,14 +15,19 @@ const seoSchema = (image: ImageFunction) =>
         pageType: z.enum(['website', 'article']).default('website')
     });
 
+const localeSchema = z.enum(['en', 'pl']);
+
 const blog = defineCollection({
     loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/blog' }),
     schema: ({ image }) =>
         z.object({
+            locale: localeSchema,
+            translationKey: z.string(),
             title: z.string(),
             excerpt: z.string().optional(),
             publishDate: z.coerce.date(),
             updatedDate: z.coerce.date().optional(),
+            tags: z.array(z.string()).default([]),
             featureImage: imageSchema(image)
                 .extend({
                     caption: z.string().optional()
@@ -37,6 +42,8 @@ const pages = defineCollection({
     loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/pages' }),
     schema: ({ image }) =>
         z.object({
+            locale: localeSchema,
+            translationKey: z.string(),
             title: z.string(),
             featureImage: imageSchema(image)
                 .extend({

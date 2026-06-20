@@ -1,33 +1,35 @@
 ---
 import HeaderNavLink from './HeaderNavLink.astro';
-import siteConfig from '../data/site-config';
-import CustomImage from './CustomImage.astro';
+import { defaultLocale, type Locale } from '../i18n/config';
+import { ui } from '../i18n/ui';
+import type { AlternateLink, SiteConfig } from '../types';
+import LanguageSwitcher from './LanguageSwitcher.astro';
 
+type Props = {
+    class?: string;
+    locale?: Locale;
+    siteConfig: SiteConfig;
+    alternateLinks?: AlternateLink[];
+};
+
+const { class: className, locale = defaultLocale, siteConfig, alternateLinks = [] } = Astro.props as Props;
 const primaryNavLinks = siteConfig.primaryNavLinks ?? [];
-
-const { class: className } = Astro.props;
+const labels = ui[locale].navigation;
 ---
 
-<header class:list={['flex items-center justify-between gap-6 px-4 py-4 sm:px-8 sm:py-6', className]}>
-    {
-        siteConfig.logo?.src ? (
-            <a href="/">
-                <CustomImage class="max-h-12" {...siteConfig.logo} loading="eager" fetchpriority="high" />
-            </a>
-        ) : (
-            <a class="text-xl font-bold sm:text-2xl" href="/">
-                {siteConfig.title}
-            </a>
-        )
-    }
-    {
-        primaryNavLinks.length > 0 && (
-            <nav class="relative" aria-label="Primary navigation">
+<header class:list={['flex items-center justify-end gap-6 px-4 py-4 sm:px-8 sm:py-6', className]}>
+    <div class="flex items-center gap-3">
+        <LanguageSwitcher locale={locale} alternateLinks={alternateLinks} />
+        {
+            primaryNavLinks.length > 0 && (
+            <nav class="relative" aria-label={labels.primary}>
                 <button
                     class="relative z-20 inline-flex items-center justify-center w-10 h-10 text-white transition-shadow duration-300 rounded-full cursor-pointer menu-toggle bg-primary hover:shadow-button"
-                    aria-label="Open Menu"
+                    aria-label={labels.openMenu}
                     aria-expanded="false"
                     aria-controls="menu-items"
+                    data-open-label={labels.openMenu}
+                    data-close-label={labels.closeMenu}
                 >
                     <span class="relative w-1 h-1 bg-white rounded-full menu-toggle-icon" />
                 </button>
@@ -44,8 +46,9 @@ const { class: className } = Astro.props;
                     ))}
                 </ul>
             </nav>
-        )
-    }
+            )
+        }
+    </div>
 </header>
 
 <style>
@@ -127,8 +130,10 @@ const { class: className } = Astro.props;
         const menuToggleIcon = document.querySelector('.menu-toggle-icon');
         menuToggleBtn?.addEventListener('click', () => {
             const isMenuExpanded = menuToggleBtn.getAttribute('aria-expanded') === 'true';
+            const openLabel = menuToggleBtn.getAttribute('data-open-label') ?? 'Open Menu';
+            const closeLabel = menuToggleBtn.getAttribute('data-close-label') ?? 'Close Menu';
             menuToggleBtn.setAttribute('aria-expanded', isMenuExpanded ? 'false' : 'true');
-            menuToggleBtn.setAttribute('aria-label', isMenuExpanded ? 'Open Menu' : 'Close Menu');
+            menuToggleBtn.setAttribute('aria-label', isMenuExpanded ? openLabel : closeLabel);
             menuToggleIcon?.classList.toggle('is-active');
             menu?.classList.toggle('is-visible');
         });

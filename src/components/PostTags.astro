@@ -1,0 +1,18 @@
+---
+type Props = {
+    tags: string[];
+    class?: string;
+};
+
+const { tags, class: className = '' } = Astro.props;
+---
+
+{
+    tags.length > 0 && (
+        <ul class={['flex flex-wrap gap-2', className].filter(Boolean).join(' ')}>
+            {tags.map((tag) => (
+                <li class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold tracking-wide text-slate-600 uppercase">{tag}</li>
+            ))}
+        </ul>
+    )
+}

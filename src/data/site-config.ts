@@ -1,99 +1,80 @@
 import heroAvatar from '../assets/images/avatar.jpg';
 import heroBackground from '../assets/images/hero.webp';
-import logoUrl from '../assets/images/logo.svg?url';
-import defaultSocial from '../assets/images/ovidius-preview.jpg';
+import { defaultLocale, type Locale } from '../i18n/config';
 import type { SiteConfig } from '../types';
+import { localizedPath } from '../utils/i18n';
 
-const siteConfig: SiteConfig = {
-    logo: {
-        src: logoUrl,
-        alt: 'Ovidius logo'
-    },
-    title: 'Ovidius',
-    description: 'Astro.js and Tailwind CSS theme for blogging by justgoodui.com',
+const sharedConfig = {
+    title: 'Cezary Knapik',
     image: {
-        src: defaultSocial,
-        alt: 'Ovidius - Astro.js and Tailwind CSS theme'
+        src: heroAvatar,
+        alt: 'Cezary Knapik'
     },
-    primaryNavLinks: [
+    postsPerPage: 5
+} satisfies Pick<SiteConfig, 'title' | 'image' | 'postsPerPage'>;
+
+// Builds navigation links with the correct locale prefix.
+function createNavLinks(locale: Locale) {
+    return [
         {
-            text: 'Home',
-            href: '/'
+            text: locale === 'pl' ? 'Strona główna' : 'Home',
+            href: localizedPath(locale, '/')
         },
         {
             text: 'Blog',
-            href: '/blog'
+            href: localizedPath(locale, '/blog')
         },
         {
-            text: 'About',
-            href: '/about'
+            text: locale === 'pl' ? 'O mnie' : 'About',
+            href: localizedPath(locale, '/about')
         },
         {
-            text: 'Contact',
-            href: '/contact'
-        },
-        {
-            text: 'Download Theme',
-            href: 'https://github.com/JustGoodUI/ovidius-astro-theme'
+            text: locale === 'pl' ? 'Kontakt' : 'Contact',
+            href: localizedPath(locale, '/contact')
         }
-    ],
-    secondaryNavLinks: [
-        {
-            text: 'About',
-            href: '/about'
-        },
-        {
-            text: 'Terms of Service',
-            href: '/terms'
-        },
-        {
-            text: 'Contact',
-            href: '/contact'
-        },
-        {
-            text: 'Download Theme',
-            href: 'https://github.com/JustGoodUI/ovidius-astro-theme'
-        }
-    ],
-    socialLinks: [
-        {
-            text: 'Go to GitHub repo',
-            href: 'https://github.com/JustGoodUI/ovidius-astro-theme',
-            icon: 'github'
-        },
-        {
-            text: 'Follow on Instagram',
-            href: 'https://instagram.com/',
-            icon: 'instagram'
-        },
-        {
-            text: 'Follow on Bluesky',
-            href: 'https://bsky.app/profile/justgoodui.com',
-            icon: 'bluesky'
-        }
-    ],
-    hero: {
-        title: 'Hi there!',
-        text: "My name is Justin Case. I'm a freelance front-end developer, author and speaker based in Austin, TX. It's nice to meet you.",
-        avatar: {
-            src: heroAvatar,
-            alt: 'Justin Case'
-        },
-        backgroundImage: {
-            src: heroBackground
-        }
-    },
-    subscribe: {
-        enabled: true,
-        title: 'Subscribe to Ovidius Newsletter',
-        text: 'One update per week. All the latest news directly in your inbox.',
-        form: {
-            action: 'https://justgoodthemes.us3.list-manage.com/subscribe/post?u=78f1bab16028354caeb23aecd&amp;id=4a7330d117&amp;f_id=005c48e2f0',
-            emailFieldName: 'EMAIL',
-            honeypotFieldName: 'b_78f1bab16028354caeb23aecd_4a7330d117'
-        }
-    },
-    postsPerPage: 5
-};
+    ];
+}
 
-export default siteConfig;
+const siteConfigs = {
+    en: {
+        ...sharedConfig,
+        description: 'Fullstack Team Lead | React, TypeScript, NodeJS, PHP | Frontend Architecture & Engineering Management',
+        primaryNavLinks: createNavLinks('en'),
+        secondaryNavLinks: createNavLinks('en'),
+        hero: {
+            title: 'Hi there!',
+            text: "I'm Cezary Knapik, a software engineering leader with over 9 years of experience building and scaling complex web applications. I lead frontend development for a large-scale internal ERP system, bridging technical strategy and hands-on execution with React, TypeScript, and PHP.",
+            avatar: {
+                src: heroAvatar,
+                alt: 'Cezary Knapik'
+            },
+            backgroundImage: {
+                src: heroBackground
+            }
+        }
+    },
+    pl: {
+        ...sharedConfig,
+        description: 'Fullstack Team Lead | React, TypeScript, NodeJS, PHP | Architektura frontendu i zarządzanie zespołem',
+        primaryNavLinks: createNavLinks('pl'),
+        secondaryNavLinks: createNavLinks('pl'),
+        hero: {
+            title: 'Cześć!',
+            text: 'Nazywam się Cezary Knapik. Jestem liderem inżynierii oprogramowania z ponad 9-letnim doświadczeniem w budowaniu i skalowaniu złożonych aplikacji webowych. Prowadzę rozwój frontendu dużego wewnętrznego systemu ERP, łącząc strategię techniczną z codzienną pracą w React, TypeScript i PHP.',
+            avatar: {
+                src: heroAvatar,
+                alt: 'Cezary Knapik'
+            },
+            backgroundImage: {
+                src: heroBackground
+            }
+        }
+    }
+} satisfies Record<Locale, SiteConfig>;
+
+// Returns the complete site configuration for a locale.
+export function getSiteConfig(locale: Locale) {
+    return siteConfigs[locale];
+}
+
+export default siteConfigs[defaultLocale];

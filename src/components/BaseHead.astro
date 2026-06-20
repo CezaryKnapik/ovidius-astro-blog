@@ -1,8 +1,10 @@
 ---
-import figtreeWoff2 from '@fontsource-variable/figtree/files/figtree-latin-wght-normal.woff2?url';
 import { getImage } from 'astro:assets';
-import siteConfig from '../data/site-config';
-import type { ImageInput } from '../types';
+import { getSiteConfig } from '../data/site-config';
+import { defaultLocale, type Locale } from '../i18n/config';
+import { ui } from '../i18n/ui';
+import type { AlternateLink, ImageInput } from '../types';
+import { localizedPath } from '../utils/i18n';
 
 import '../styles/global.css';
 
@@ -11,11 +13,15 @@ export type Props = {
     description?: string;
     image?: ImageInput | undefined;
     pageType?: 'website' | 'article';
+    locale?: Locale;
+    alternateLinks?: AlternateLink[];
 };
 
-const { description = '', pageType = 'website' } = Astro.props;
+const { locale = defaultLocale, description = '', pageType = 'website', alternateLinks = [] } = Astro.props;
+const siteConfig = getSiteConfig(locale);
 const title = [Astro.props.title, siteConfig.title].filter(Boolean).join(' | ');
 const image = Astro.props.image ?? siteConfig.image;
+const rssHref = localizedPath(locale, '/rss.xml');
 let resolvedImage: { src: string; alt?: string } | undefined;
 if (image?.src) {
     if (typeof image.src === 'string') {
@@ -60,16 +66,31 @@ function formatCanonicalURL(url: string | URL) {
 <title>{title}</title>
 <meta name="generator" content={Astro.generator} />
 
-<!-- Font preloads -->
-<link rel="preload" as="font" type="font/woff2" href={figtreeWoff2} crossorigin="anonymous" />
+<!-- Fonts (self-hosted, full charset incl. Polish diacritics) -->
+<link rel="preload" as="font" type="font/woff2" href="/fonts/figtree-wght-normal.woff2" crossorigin="anonymous" />
+<link rel="stylesheet" href="/fonts/figtree.css?v=2" />
 
 <!-- Low Priority Global Metadata -->
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="sitemap" href="/sitemap-index.xml" />
-<link rel="alternate" type="application/rss+xml" href="/rss.xml" title="RSS" />
+<link rel="alternate" type="application/rss+xml" href={rssHref} title={ui[locale].common.rssTitle} />
 
 <!-- Page Metadata -->
 <link rel="canonical" href={formatCanonicalURL(canonicalURL)} />
+{
+    alternateLinks.map((link) => (
+        <link rel="alternate" hreflang={link.hreflang} href={formatCanonicalURL(new URL(link.href, Astro.site))} />
+    ))
+}
+{
+    alternateLinks.find((link) => link.locale === defaultLocale) && (
+        <link
+            rel="alternate"
+            hreflang="x-default"
+            href={formatCanonicalURL(new URL(alternateLinks.find((link) => link.locale === defaultLocale)?.href ?? '/', Astro.site))}
+        />
+    )
+}
 <meta name="description" content={description} />
 
 <!-- Open Graph / Facebook -->

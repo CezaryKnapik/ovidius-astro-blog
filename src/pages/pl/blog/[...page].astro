@@ -1,22 +1,22 @@
 ---
 import type { GetStaticPathsOptions, Page } from 'astro';
 import { getCollection } from 'astro:content';
-import Icon from '../../components/Icon.astro';
-import PostPreview from '../../components/PostPreview.astro';
-import { getSiteConfig } from '../../data/site-config';
-import { defaultLocale } from '../../i18n/config';
-import { ui } from '../../i18n/ui';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import { filterByLocale, getRouteAlternateLinks } from '../../utils/i18n';
-import { sortPostsByDateDesc } from '../../utils/post-utils';
+import Icon from '../../../components/Icon.astro';
+import PostPreview from '../../../components/PostPreview.astro';
+import { getSiteConfig } from '../../../data/site-config';
+import { ui } from '../../../i18n/ui';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { filterByLocale, getRouteAlternateLinks } from '../../../utils/i18n';
+import { sortPostsByDateDesc } from '../../../utils/post-utils';
+
+const locale = 'pl';
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
-    const siteConfig = getSiteConfig(defaultLocale);
-    const posts = filterByLocale(await getCollection('blog'), defaultLocale).sort(sortPostsByDateDesc);
+    const siteConfig = getSiteConfig('pl');
+    const posts = filterByLocale(await getCollection('blog'), 'pl').sort(sortPostsByDateDesc);
     return paginate(posts, { pageSize: siteConfig.postsPerPage || 5 });
 }
 
-const locale = defaultLocale;
 const { page } = Astro.props as { page: Page };
 const labels = ui[locale];
 const blog = page.data;

@@ -3,26 +3,31 @@ import { ClientRouter } from 'astro:transitions';
 import BaseHead, { type Props as HeadProps } from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import { getSiteConfig } from '../data/site-config';
+import { defaultLocale, localeMetadata, type Locale } from '../i18n/config';
 
-export type Props = HeadProps;
+export type Props = HeadProps & {
+    locale?: Locale;
+};
 
-const { ...head } = Astro.props;
+const { locale = defaultLocale, ...head } = Astro.props;
+const siteConfig = getSiteConfig(locale);
 ---
 
 <!doctype html>
-<html lang="en" class="antialiased wrap-break-word">
+<html lang={localeMetadata[locale].htmlLang} class="antialiased wrap-break-word">
     <head>
-        <BaseHead {...head} />
+        <BaseHead {...head} locale={locale} />
         <ClientRouter />
     </head>
     <body class="bg-white text-slate-700">
         <div class="flex flex-col min-h-screen">
             <slot name="header">
-                <Header class="bg-slate-50 border-b border-slate-100" />
+                <Header class="bg-slate-50 border-b border-slate-100" locale={locale} siteConfig={siteConfig} alternateLinks={head.alternateLinks} />
             </slot>
             <slot />
             <slot name="footer">
-                <Footer />
+                <Footer locale={locale} siteConfig={siteConfig} />
             </slot>
         </div>
     </body>

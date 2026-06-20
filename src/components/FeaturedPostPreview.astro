@@ -1,35 +1,42 @@
 ---
 import { type CollectionEntry } from 'astro:content';
+import { defaultLocale, type Locale } from '../i18n/config';
+import { ui } from '../i18n/ui';
+import { postUrl } from '../utils/i18n';
 import CustomImage from './CustomImage.astro';
 import FormattedDate from './FormattedDate.astro';
+import PostTags from './PostTags.astro';
 
-const { post } = Astro.props as { post: CollectionEntry<'blog'> };
-const { title, publishDate, updatedDate, featureImage, excerpt } = post.data;
+const { post, locale = defaultLocale } = Astro.props as { post: CollectionEntry<'blog'>; locale?: Locale };
+const { title, publishDate, updatedDate, featureImage, excerpt, tags } = post.data;
+const postHref = postUrl(locale, post);
+const labels = ui[locale].common;
 ---
 
 <article class="mb-12 sm:mb-16">
     <header class="max-w-3xl mx-auto">
         <div class="mb-2 text-sm tracking-wider uppercase text-slate-500 sm:mb-3">
-            <span class="text-primary">Featured</span>
+            <span class="text-primary">{labels.featured}</span>
             {' / '}
-            <FormattedDate date={publishDate} />
+            <FormattedDate date={publishDate} locale={locale} />
             {
                 updatedDate && (
                     <>
                         {' '}
                         <span>
-                            (Updated on <FormattedDate date={updatedDate} />)
+                            ({labels.updatedOn} <FormattedDate date={updatedDate} locale={locale} />)
                         </span>
                     </>
                 )
             }
         </div>
-        <h2 class="text-3xl font-bold text-slate-900 sm:text-4xl md:text-5xl"><a href={`/blog/${post.id}/`}>{title}</a></h2>
+        <h2 class="text-3xl font-bold text-slate-900 sm:text-4xl md:text-5xl"><a href={postHref}>{title}</a></h2>
+        <PostTags tags={tags} class="mt-4" />
     </header>
     {
         featureImage?.src && (
             <figure class="max-w-6xl mx-auto my-6 sm:my-8">
-                <a href={`/blog/${post.id}/`}>
+                <a href={postHref}>
                     <CustomImage
                         {...featureImage}
                         class="w-full rounded-md"
@@ -52,9 +59,9 @@ const { title, publishDate, updatedDate, featureImage, excerpt } = post.data;
     <div class="max-w-3xl mx-auto mt-8">
         <a
             class="bg-primary hover:shadow-button inline-flex items-center justify-center gap-1.5 rounded-full px-8 py-2.5 font-semibold text-white transition duration-300"
-            href={`/blog/${post.id}/`}
+            href={postHref}
         >
-            Continue Reading
+            {labels.continueReading}
         </a>
     </div>
 </article>

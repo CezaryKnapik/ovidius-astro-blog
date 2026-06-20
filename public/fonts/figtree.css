@@ -1,0 +1,20 @@
+/* Self-hosted Figtree (variable, full character set incl. Polish diacritics).
+   Single @font-face per style, NO unicode-range: every character is served by
+   this one file, so there is no subset attribution to get wrong and nothing for
+   the build's CSS minifier to corrupt. Served from /public (never bundled). */
+
+@font-face {
+  font-family: 'Figtree';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 300 900;
+  src: url('/fonts/figtree-wght-normal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Figtree';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 300 900;
+  src: url('/fonts/figtree-wght-italic.woff2') format('woff2');
+}

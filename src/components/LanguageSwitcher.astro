@@ -1,0 +1,44 @@
+---
+import { localeMetadata, locales, type Locale } from '../i18n/config';
+import { ui } from '../i18n/ui';
+import type { AlternateLink } from '../types';
+import { localizedPath } from '../utils/i18n';
+
+type Props = {
+    locale: Locale;
+    alternateLinks?: AlternateLink[];
+};
+
+const { locale, alternateLinks = [] } = Astro.props;
+const labels = ui[locale].navigation;
+const links = locales.map((targetLocale) => {
+    const alternateLink = alternateLinks.find((link) => link.locale === targetLocale);
+
+    return {
+        locale: targetLocale,
+        href: alternateLink?.href ?? localizedPath(targetLocale, '/'),
+        label: localeMetadata[targetLocale].label,
+        shortLabel: localeMetadata[targetLocale].shortLabel
+    };
+});
+---
+
+<nav aria-label={labels.languageSwitcher} class="flex items-center gap-2 text-xs font-bold tracking-wider uppercase text-slate-600">
+    {
+        links.map((link) => (
+            <a
+                class:list={[
+                    'rounded-full px-2 py-1 transition hover:bg-slate-100 hover:text-slate-900',
+                    {
+                        'bg-slate-100 text-slate-900': link.locale === locale
+                    }
+                ]}
+                href={link.href}
+                aria-current={link.locale === locale ? 'page' : undefined}
+                title={link.label}
+            >
+                {link.shortLabel}
+            </a>
+        ))
+    }
+</nav>

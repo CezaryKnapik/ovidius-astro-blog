@@ -1,19 +1,19 @@
 ---
 title: About
+locale: en
+translationKey: about
 featureImage:
   src: '../../assets/images/about.jpg'
-  alt: The portrait of a person
+  alt: Cezary Knapik
 seo:
   title: About
-  description: About Justin Case
+  description: About Cezary Knapik
   image:
     src: '../../assets/images/about.jpg'
 ---
 
-**This is demo content for [Ovidius](https://github.com/JustGoodUI) Astro.js and Tailwind CSS theme created by [justgoodui.com](https://justgoodui.com/).**
+I'm Cezary Knapik, a Fullstack Team Lead with over 9 years of experience building and scaling complex web applications. I work across React, TypeScript, Node.js, and PHP — bridging the gap between technical strategy and hands-on execution.
 
-Justin Case is a senior developer from Vilnius, Lithuania. After graduating from The College with a degree in Computer Science, he worked for three small web shops where he honed his development skills and love for JavaScript.
+Currently, I lead frontend development for a large-scale internal ERP system used by thousands of users. My work spans architecture and delivery with React and TypeScript, mentoring engineers, contributing to the PHP backend, and improving how we ship through GitLab CI/CD pipelines and AI-driven tooling.
 
-> Creativity is allowing yourself to make mistakes. Design is knowing which ones to keep.
-
-His work has been recognized by Communication Arts, IBM, How, ID, IdN, AIGA, Effie, Archive, Graphis, AdFed and Rockport. Net magazine named him a person to watch in 2023.
+My core philosophy is that great software comes from great teams. I thrive in collaborative environments where I can build powerful products and help other engineers grow.

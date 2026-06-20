@@ -1,12 +1,11 @@
 import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
-import { getSiteConfig } from '../data/site-config';
-import { defaultLocale } from '../i18n/config';
-import { filterByLocale, postUrl } from '../utils/i18n';
-import { sortPostsByDateDesc } from '../utils/post-utils';
+import { getSiteConfig } from '../../data/site-config';
+import { filterByLocale, postUrl } from '../../utils/i18n';
+import { sortPostsByDateDesc } from '../../utils/post-utils';
 
 export async function GET(context) {
-    const locale = defaultLocale;
+    const locale = 'pl';
     const siteConfig = getSiteConfig(locale);
     const posts = filterByLocale(await getCollection('blog'), locale).sort(sortPostsByDateDesc);
     return rss({

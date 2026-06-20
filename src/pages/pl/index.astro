@@ -1,17 +1,16 @@
 ---
 import { getCollection } from 'astro:content';
-import FeaturedPostPreview from '../components/FeaturedPostPreview.astro';
-import Header from '../components/Header.astro';
-import Hero from '../components/Hero.astro';
-import PostPreview from '../components/PostPreview.astro';
-import { getSiteConfig } from '../data/site-config';
-import { defaultLocale } from '../i18n/config';
-import { ui } from '../i18n/ui';
-import BaseLayout from '../layouts/BaseLayout.astro';
-import { filterByLocale, getRouteAlternateLinks, localizedPath } from '../utils/i18n';
-import { sortPostsByDateDesc } from '../utils/post-utils';
+import FeaturedPostPreview from '../../components/FeaturedPostPreview.astro';
+import Header from '../../components/Header.astro';
+import Hero from '../../components/Hero.astro';
+import PostPreview from '../../components/PostPreview.astro';
+import { getSiteConfig } from '../../data/site-config';
+import { ui } from '../../i18n/ui';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { filterByLocale, getRouteAlternateLinks, localizedPath } from '../../utils/i18n';
+import { sortPostsByDateDesc } from '../../utils/post-utils';
 
-const locale = defaultLocale;
+const locale = 'pl';
 const siteConfig = getSiteConfig(locale);
 const labels = ui[locale].common;
 const alternateLinks = getRouteAlternateLinks('/');
