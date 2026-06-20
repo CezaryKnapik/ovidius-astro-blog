@@ -3,36 +3,32 @@ import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
 
-import cloudflare from '@astrojs/cloudflare';
-
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://ovidius-astro-theme.netlify.app',
+    site: 'https://ovidius-astro-theme.netlify.app',
 
-  i18n: {
-      defaultLocale: 'en',
-      locales: ['en', 'pl'],
-      routing: {
-          prefixDefaultLocale: false
-      }
-  },
+    i18n: {
+        defaultLocale: 'en',
+        locales: ['en', 'pl'],
+        routing: {
+            prefixDefaultLocale: false
+        }
+    },
 
-  vite: {
-      plugins: [tailwindcss()]
-  },
+    vite: {
+        plugins: [tailwindcss()]
+    },
 
-  integrations: [
-      mdx(),
-      sitemap({
-          i18n: {
-              defaultLocale: 'en',
-              locales: {
-                  en: 'en-US',
-                  pl: 'pl-PL'
-              }
-          }
-      })
-  ],
-
-  adapter: cloudflare()
+    integrations: [
+        mdx(),
+        sitemap({
+            i18n: {
+                defaultLocale: 'en',
+                locales: {
+                    en: 'en-US',
+                    pl: 'pl-PL'
+                }
+            }
+        })
+    ]
 });
