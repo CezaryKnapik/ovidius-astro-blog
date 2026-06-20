@@ -18,12 +18,10 @@ export type Hero = {
 };
 
 export type SiteConfig = {
-    logo?: ImageInput;
     title: string;
     description: string;
     image?: ImageInput;
-    primaryNavLinks?: Link[];
-    secondaryNavLinks?: Link[];
+    navLinks?: Link[];
     hero?: Hero;
     postsPerPage?: number;
 };

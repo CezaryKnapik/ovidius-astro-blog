@@ -9,15 +9,15 @@ type Props = {
 };
 
 const { locale = defaultLocale, siteConfig } = Astro.props as Props;
-const secondaryNavLinks = siteConfig.secondaryNavLinks ?? [];
+const navLinks = siteConfig.navLinks ?? [];
 const labels = ui[locale].navigation;
 ---
 
 <footer class="px-4 py-8 sm:px-8 sm:py-12">
     {
-        secondaryNavLinks.length > 0 && (
+        navLinks.length > 0 && (
             <nav class="flex flex-wrap justify-center w-full max-w-3xl mx-auto gap-x-6 gap-y-1" aria-label={labels.footer}>
-                {secondaryNavLinks.map((link) => (
+                {navLinks.map((link) => (
                     <a class="transition text-slate-700 hover:text-slate-500" href={link.href}>
                         {link.text}
                     </a>

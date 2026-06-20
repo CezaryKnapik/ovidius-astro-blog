@@ -13,7 +13,7 @@ type Props = {
 };
 
 const { class: className, locale = defaultLocale, siteConfig, alternateLinks = [] } = Astro.props as Props;
-const primaryNavLinks = siteConfig.primaryNavLinks ?? [];
+const navLinks = siteConfig.navLinks ?? [];
 const labels = ui[locale].navigation;
 ---
 
@@ -21,7 +21,7 @@ const labels = ui[locale].navigation;
     <div class="flex items-center gap-3">
         <LanguageSwitcher locale={locale} alternateLinks={alternateLinks} />
         {
-            primaryNavLinks.length > 0 && (
+            navLinks.length > 0 && (
             <nav class="relative" aria-label={labels.primary}>
                 <button
                     class="relative z-20 inline-flex items-center justify-center w-10 h-10 text-white transition-shadow duration-300 rounded-full cursor-pointer menu-toggle bg-primary hover:shadow-button"
@@ -34,7 +34,7 @@ const labels = ui[locale].navigation;
                     <span class="relative w-1 h-1 bg-white rounded-full menu-toggle-icon" />
                 </button>
                 <ul id="menu-items" class="absolute z-10 px-8 pt-16 pb-10 border menu -top-3 -right-3 border-white/40 bg-white/75 sm:px-12 sm:pt-20 sm:pb-16">
-                    {primaryNavLinks.map((link) => (
+                    {navLinks.map((link) => (
                         <li class="mb-1 border-b border-slate-200/70">
                             <HeaderNavLink
                                 class="relative block py-1 pr-6 text-lg font-bold transition duration-300 text-slate-700 hover:text-slate-500 sm:text-xl"

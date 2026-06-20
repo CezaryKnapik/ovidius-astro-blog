@@ -3,13 +3,13 @@ title: About
 locale: en
 translationKey: about
 featureImage:
-  src: '../../assets/images/about.jpg'
+  src: '../../assets/images/avatar.jpg'
   alt: Cezary Knapik
 seo:
   title: About
   description: About Cezary Knapik
   image:
-    src: '../../assets/images/about.jpg'
+    src: '../../assets/images/avatar.jpg'
 ---
 
 I'm Cezary Knapik, a Fullstack Team Lead with over 9 years of experience building and scaling complex web applications. I work across React, TypeScript, Node.js, and PHP — bridging the gap between technical strategy and hands-on execution.

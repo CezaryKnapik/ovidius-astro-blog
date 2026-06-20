@@ -27,8 +27,3 @@ export const localeMetadata = {
         dateLocale: 'pl-PL'
     }
 } satisfies Record<Locale, LocaleMetadata>;
-
-// Checks whether a string is one of the locales supported by the site.
-export function isLocale(value: string): value is Locale {
-    return value === 'en' || value === 'pl';
-}
